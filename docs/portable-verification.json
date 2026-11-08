@@ -1,0 +1,66 @@
+{
+  "version": "0.3.0",
+  "archive_sha256": "151d6df237a0473c7f1ab553edf5e5f9bfc6f49788525fe3d26fc99b58f79406",
+  "frozen_gui": true,
+  "tk_created": true,
+  "python_on_path": false,
+  "user_data_outside_bundle": true,
+  "simulation": {
+    "source": "simulated",
+    "verdict": "PASS",
+    "coverage": 4,
+    "errors": 0,
+    "samples": 20000,
+    "stable_samples": 19935,
+    "excluded_edges": 65,
+    "guard_samples": 2,
+    "duration_s": 0.2,
+    "rows": [
+      {
+        "a": 0,
+        "b": 0,
+        "expected": 0,
+        "count": 3990,
+        "errors": 0
+      },
+      {
+        "a": 0,
+        "b": 1,
+        "expected": 0,
+        "count": 4977,
+        "errors": 0
+      },
+      {
+        "a": 1,
+        "b": 0,
+        "expected": 0,
+        "count": 4985,
+        "errors": 0
+      },
+      {
+        "a": 1,
+        "b": 1,
+        "expected": 1,
+        "count": 5983,
+        "errors": 0
+      }
+    ],
+    "first_error_indices": [],
+    "scope": "仅对采样记录中稳态与逻辑及四种输入覆盖判读；不评估电气连通、模拟电压、毛刺或传播延迟"
+  },
+  "bridge_tool_count": 103,
+  "raw_data_hashes_valid": true,
+  "external_api_called": false,
+  "hardware_write_calls": 0,
+  "real_scopy_readonly_connected": true,
+  "readonly_fields": [
+    "dio2_direction",
+    "dio2_input",
+    "dio_running",
+    "logic_buffer_size",
+    "logic_sample_rate",
+    "vminus_enabled",
+    "vplus_enabled",
+    "vplus_setting"
+  ]
+}

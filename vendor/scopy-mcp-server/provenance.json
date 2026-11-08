@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/analogdevicesinc/scopy",
+  "ref": "v2.2.1",
+  "sha256": {
+    "pyproject.toml": "fef9c9ad2b36d1d9941e5bf7e2cddf29fd0bc1a06e7b66da141440eabf1846de",
+    "README.md": "dcb29f63c29aee58eba41e49ef9572c83c2493fc2ba0a516acfbf557acece90c",
+    "scopy_mcp_server/__init__.py": "95f05e774d87a541faa50e245e25f170de28c477b8fd4adeeb4f4bfb1ae51f74",
+    "scopy_mcp_server/server.py": "92e239a62857ed9bb2a2db041197c03d5c1cc6cd3868e9785a19fa2a4e82e0a3",
+    "scopy_mcp_server/bridge.py": "c4a171fe1f8b85b45bc0bb9a8640417bf9c0dbd491b36fb547f0d8f89375810e",
+    "scopy_mcp_server/scopy_api.json": "e91db01d5b080a4a42de5928ac401afb0ece02c0bef228b42a65c9626e43ba6e"
+  }
+}

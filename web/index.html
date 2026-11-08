@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>模电实验 Copilot · 本地实验台</title>
+  <link rel="stylesheet" href="/style.css"><script defer src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="模电实验 Copilot 首页"><span class="mark">∧</span><span>模电实验 <b>Copilot</b><small>LOCAL LAB / 本地实验台</small></span></a>
+    <div class="top-actions"><span class="mode-pill"><i></i> 模拟模式 · 未控制硬件</span><button id="settings-open" class="quiet">模型设置 <span aria-hidden="true">↗</span></button><button id="stop" class="stop">■ 停止本地任务</button></div>
+  </header>
+  <main class="workspace">
+    <aside class="sidebar">
+      <div class="eyebrow">EXPERIMENT 01</div><h2>从接线到判读</h2><p class="muted small">CD4007UBE · 二输入与门</p>
+      <nav id="steps" aria-label="实验步骤"></nav>
+      <div class="side-note"><span class="tiny-label">本次实验约定</span><strong>3.3 <small>V</small></strong><p>芯片供电与数字高电平匹配。<br>接线前关闭所有输出。</p><span class="outline-tag">真实写操作已锁定</span></div>
+      <div class="side-bottom"><span class="status-dot"></span> v0.2.0 · 本机运行<br><span class="muted">原始波形留在本地</span></div>
+    </aside>
+
+    <section class="bench" aria-label="实验工作区">
+      <div class="bench-title"><div><div class="eyebrow">MOS LOGIC / 实验一</div><h1>二输入与门<span class="formula">Y = A ∧ B</span></h1><p>跟着步骤核对连接，再用数据检查逻辑。</p></div><span class="chip-tag">CD4007UBE</span></div>
+      <div id="stopped-banner" class="banner stopped" hidden>本地任务已停止，模型不能自行恢复。<button id="reset" class="quiet">手动恢复演示 →</button></div>
+
+      <section class="panel guide-panel" aria-labelledby="guide-title">
+        <div class="panel-head"><span class="section-label" id="step-label">01 / 接线指导</span><span class="source-label">依据实验手册</span></div>
+        <div class="guide-body"><div><h2 id="guide-title">断电准备</h2><p id="guide-text"></p></div><div class="pin-card" aria-label="芯片关键节点速查"><div class="chip-top"><span>CD4007UBE</span><span>⌒</span></div><dl><div><dt>电源</dt><dd>14 · 2 · 11 → V+</dd></div><div><dt>地</dt><dd>7 · 9 → GND</dd></div><div><dt>输入</dt><dd>3 → A &nbsp; 6 → B</dd></div><div><dt>输出</dt><dd>12 → Y / DIO2</dd></div></dl><small>节点速查，不能替代逐线核对</small></div></div>
+        <div class="guide-footer"><label class="check-label"><input type="checkbox" id="step-read">已阅读本步说明</label><div><button id="previous" class="quiet" aria-label="上一步">←</button><button id="next" class="quiet">下一步 →</button></div></div>
+      </section>
+
+      <section class="panel config-panel" aria-labelledby="config-title">
+        <div class="panel-head"><h2 id="config-title">模拟采样</h2><span class="badge">SIMULATED</span></div>
+        <p class="muted small">DIO0 / A 与 DIO1 / B 各为 Random，DIO2 / Y 仅输入。参数只应用到模拟器。</p>
+        <form id="simulation-form">
+          <div class="parameter-grid"><label>随机码率<input id="frequency" name="frequency" value="100 Hz" required></label><label>采样率<input id="sample-rate" name="sample_rate" value="100 kS/s" required></label><label>采样点数<input id="samples" name="samples" type="number" min="4" max="200000" step="1" value="20000" required></label></div>
+          <div class="run-row"><label class="fault-label">演示场景<select id="fault" aria-label="演示场景"><option value="none">正常与门</option><option value="stuck_low">故障 · 输出始终为 0</option><option value="nand">故障 · 误接与非门</option></select></label><button id="run" class="primary" type="submit"><span aria-hidden="true">▶</span> 运行模拟并判读</button></div>
+        </form>
+        <p id="config-readback" class="readback" aria-live="polite">尚未设置模拟器 · 等待运行</p>
+      </section>
+
+      <section class="panel results-panel" aria-labelledby="results-title">
+        <div class="panel-head"><h2 id="results-title">采样与结果</h2><span id="result-source" class="source-label">尚无记录</span></div>
+        <div id="wave-empty" class="wave-empty"><span class="wave-icon" aria-hidden="true">＿▔▔＿▔＿</span><strong>等待第一条记录</strong><p>运行模拟后，在这里对照 A、B 与 Y。</p></div>
+        <div id="wave" class="wave" hidden><div class="wave-caption"><span>前 50 ms / 原采样分辨率，短记录按实际时长</span><span>逻辑值 0 / 1</span></div><svg id="waveform" viewBox="0 0 760 200" role="img" aria-label="模拟 A、B、Y 三路数字波形"></svg></div>
+        <div class="result-summary"><div><span class="tiny-label">本地判读</span><strong id="verdict">—</strong></div><div><span class="tiny-label">输入覆盖</span><strong id="coverage">— <small>/ 4</small></strong></div><div><span class="tiny-label">稳态错误</span><strong id="errors">— <small>点</small></strong></div></div>
+        <table class="truth-table"><caption class="sr-only">二输入与门真值覆盖及错误统计</caption><thead><tr><th>A</th><th>B</th><th>期望 Y</th><th>稳态样本</th><th>检查结果</th></tr></thead><tbody id="truth-body"></tbody></table>
+        <div id="result-details" class="result-details">程序逐点检查稳态与逻辑，并单独统计四种输入覆盖。</div>
+        <div id="downloads" class="downloads" hidden><span>已保存到本机</span><button data-file="raw.csv">原始 CSV ↓</button><button data-file="result.json">判读 JSON ↓</button><button data-file="manifest.json">校验清单 ↓</button></div>
+        <div class="evidence-note">模拟数据用于验证软件流程，不能证明实际接线、电压或器件工作正常。</div>
+      </section>
+
+      <section class="panel hardware-panel" aria-labelledby="hardware-title">
+        <div class="panel-head"><h2 id="hardware-title">真实仪器</h2><span id="hardware-badge" class="outline-tag">连接未核实</span></div>
+        <p id="hardware-message" class="small muted">仅附加已运行的 Scopy，读取固定状态。不会启动设备、设置参数或使能输出。</p>
+        <dl id="hardware-values" class="hardware-values"></dl>
+        <div class="hardware-footer"><span>实际输出状态：<b>未知</b></span><button id="probe" class="secondary">检查真实连接（只读）</button></div>
+        <details><summary>当前接入范围</summary><p>Scopy 2.2.1 提供 M2K 部分属性接口；官方元数据未提供 Random 频率控制与逻辑原始波形导出，本原型未开放实际采样闭环。</p><p>“停止本地任务”只取消本程序任务，不能代替 Scopy 停机或物理断电。</p></details>
+      </section>
+      <details class="operation-log"><summary>操作记录 <span id="log-count">0</span></summary><ol id="events"></ol></details>
+    </section>
+
+    <aside class="assistant-panel" aria-labelledby="assistant-title">
+      <div class="assistant-head"><span class="assistant-icon" aria-hidden="true">✳</span><div><h2 id="assistant-title">实验助手</h2><p id="assistant-model">离线教程 · 无需 API Key</p></div></div>
+      <div class="chat-mode"><label for="chat-mode">对话方式</label><select id="chat-mode"><option value="offline">离线教程与演示</option><option value="api">外部 LLM API</option></select></div>
+      <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"><article class="message assistant"><span class="message-source">本地助手 · 固定教程</span><p>先把接线看明白，再看波形。<br><br>你可以从左侧逐步阅读，也可以先运行一次模拟，熟悉采样和判读。真实电源与输出始终由人工核实。</p></article></div>
+      <div class="quick-prompts"><button data-prompt="接线怎么做？">从接线开始</button><button data-prompt="运行模拟">运行模拟</button><button data-prompt="解释判读结果">解释判读</button></div>
+      <form id="chat-form" class="chat-form"><label for="chat-input" class="sr-only">向实验助手提问</label><textarea id="chat-input" rows="3" maxlength="4000" placeholder="例如：为什么 01 时输出应该为 0？"></textarea><div><small id="chat-note">离线模式提供固定教程与演示</small><button id="send" type="submit" aria-label="发送消息">↑</button></div></form>
+      <p class="assistant-footnote">外部 API 仅接收对话、实验说明与必要摘要；原始波形保存在本机。</p>
+    </aside>
+  </main>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <dialog id="settings-dialog" aria-labelledby="settings-title"><form id="settings-form"><div class="dialog-head"><div><span class="eyebrow">MODEL CONNECTION</span><h2 id="settings-title">模型设置</h2></div><button id="settings-close" type="button" class="quiet" aria-label="关闭模型设置">×</button></div><p class="muted">选择 OpenAI 兼容的 Chat Completions API。默认 DeepSeek V4.1 Flash。</p><label>API 地址<input id="base-url" type="url" value="https://api.deepseek.com" required autocomplete="off"></label><label>模型名称<input id="model-name" value="deepseek-flash" required autocomplete="off"></label><label>API Key <span id="key-state" class="muted"></span><input id="api-key" type="password" placeholder="只在本机输入，本次运行有效" autocomplete="off" spellcheck="false"></label><p class="key-note">密钥仅保存在本次后端进程内存中，不回显、不写文件。关闭服务后需重新输入。更换 API 地址会清除旧密钥。</p><div class="dialog-actions"><button id="clear-key" class="quiet" type="button">清除本次密钥</button><button class="primary" type="submit">保存本次设置</button></div><p id="settings-error" class="error-text" role="alert"></p></form></dialog>
+</body></html>
